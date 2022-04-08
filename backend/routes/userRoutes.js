@@ -1,15 +1,15 @@
-import express from "express";
+import express from 'express';
 
 const router = express.Router();
 
-import {authUser} from '../controllers/userControllers.js';
+import { authUser, registerUser, getUserProfile } from '../controllers/userControllers.js'
 
-import {protect} from '../middleware/authiMiddleware.js';
+import { protect } from '../middleware/authMiddleware.js'
 
-//router.router('/').post(registeruser)
+router.route('/').post(registerUser) // default route is /api/users
 
 router.route('/login').post(authUser)
 
-//router.rout('/profile').get(protect,getUserProfile)
+router.route('/profile').get(protect, getUserProfile)
 
-export  default router
+export default router
