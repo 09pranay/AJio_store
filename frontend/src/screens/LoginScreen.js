@@ -4,8 +4,9 @@ import { Form, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+
 import { login } from '../actions/userActions'
-import FormContainer from '../components/FormContianer.js'
+import FormContainer from '../components/FormContainer'
 
 function LoginScreen({ history, location }) {
     const [ email, setEmail ] = useState('')
