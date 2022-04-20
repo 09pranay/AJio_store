@@ -3,9 +3,8 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { productListReducer, productDetailsReducer } from './reducers/productReducers'
 import { cartReducer } from './reducers/cartReducers'
-import { userLoginReducer, userRegisterReducer, userDetailsReducer,userUpdateProfileReducer } from './reducers/userReducers'
-import { orderCreateReducer,orderDetailsReducer,orderPayReducer} from './reducers/orderReducers'
-
+import { userLoginReducer, userRegisterReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers'
+import { orderCreateReducer, orderDetailsReducer, orderPayReducer, orderDeliverReducer } from './reducers/orderReducers'
 // initialisation of store
 const reducer = combineReducers({
     productList: productListReducer,
@@ -17,7 +16,8 @@ const reducer = combineReducers({
     userUpdateProfile: userUpdateProfileReducer,
     orderCreate: orderCreateReducer,
     orderDetails: orderDetailsReducer,
-    orderPay: orderPayReducer
+    orderPay: orderPayReducer,
+    orderDeliver: orderDeliverReducer,
 })
 
 const cartItemsFromStorage = localStorage.getItem('cartItems')
@@ -26,14 +26,14 @@ const cartItemsFromStorage = localStorage.getItem('cartItems')
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
                                 ? JSON.parse(localStorage.getItem('userInfo'))
-                                : null            
+                                : null    
                                 
 const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
-                                ? JSON.parse(localStorage.getItem('shippingAddress'))
-                                :{}                                
+                                        ? JSON.parse(localStorage.getItem('shippingAddress')) 
+                                        : {}                          
 
 const initialState = {
-    cart: { cartItems: cartItemsFromStorage , shippingAddress: shippingAddressFromStorage},
+    cart: { cartItems: cartItemsFromStorage, shippingAddress: shippingAddressFromStorage },
     userLogin: { userInfo: userInfoFromStorage }
 }
 

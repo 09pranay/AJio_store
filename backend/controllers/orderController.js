@@ -1,97 +1,108 @@
-import Order from '../models/orderModel.js';
-import  asyncHandler from 'express-async-handler'
+import asyncHandler from 'express-async-handler'
+import Order from '../models/orderModel.js'
 
-//@des create new order 
-//@route /api/order
-//@access private
+// @desc create new order
+// @route /api/orders
+// @access private
 
 const addOrderItems = asyncHandler( async(req, res) => {
-       const {orderItems,shippingAddress,paymentMethod,itemsPrice,taxPrice,shippingPrice,totalPrice} = req.body;
-  
-       if(orderItems && orderItems.length === 0){
-            res.status(400)
-            throw new Error('no order items found')
-            return
-       }else{
-           const order = new Order({
-               orderItems,
-               user: req.user._id,
-               shippingAddress,
-               paymentMethod,
-               itemsPrice,
-               taxPrice,
-               shippingPrice,
-               totalPrice
-            
-            })
+    const { orderItems, shippingAddress, paymentMethod, itemsPrice, taxPrice, shippingPrice, totalPrice } = req.body;
 
-            const createOrder = await Order.save()
+    if(orderItems && orderItems.length === 0) {
+        res.status(400)
+        throw new Error('No orders found')
+        return
+    } else {
+        const order = new Order({
+            orderItems,
+            user: req.user._id,
+            shippingAddress,
+            paymentMethod,
+            itemsPrice,
+            taxPrice,
+            shippingPrice,
+            totalPrice,
+        })
 
-            res.status(200).json(createOrder)
-       }
+        const createdOrder = await order.save()
 
+        res.status(200).json(createdOrder)
+    }
 })
 
-//@des Get order by id
-//@route /api/order/:id
-//@access private
 
-const getOrderById = asyncHandler( async(req, res)=>{
-     const order = await Order.findById(req.params.id).populate(
-          'user',
-          'name email,'
-     )
-     if(order){
-          res.json(order)
-     }else{
-          res.status(404)
-          throw new Error('Order not found')
-     }
+// @desc Get order by Id
+// @route /api/orders/:id
+// @access private
+const getOrderById = asyncHandler( async (req, res) => {
+    const order = await Order.findById(req.params.id).populate(
+        'user',
+        'name email'
+    )
 
-
-})
-
-//@des update  order to paid
-//@route GET /api/order/:id/pay
-//@access private
-const updateOrderToPaid = asyncHandler(async(req, res) => {
-     const order = await Order.findById(req.params.id)
-
-     if (order) {
-          order.ispaid = true
-          order.paidAt = Date.now()
-          order.paymentResult={
-               id: req.body.id,
-               status: req.body.status,
-               updated_time:req.body.updated_time,
-               email_address: req.body.payer.email_address,
-          }
-
-          const updateOrder = await Order.save()
-          res.json(updateOrder)
-     }else{
-          res.status(404)
-          throw new Error('Order not found')
-     }
-
-})
-//@des GET my order
-//@router GET /api/order/myorder
-//@access private
-const getMyOrder = asyncHandler( async (req, res) => {
-        const order = await Order.find({ user: req.user._id})
-
+    if(order) {
         res.json(order)
+    } else {
+        res.status(404)
+        throw new Error('Order not found')
+    }
 })
 
-//@des GET my order
-//@router GET /api/order/myorder
-//@access private
-const getOrder = asyncHandler( async (req, res) => {
-        const order = await Order.find({}).populate('user','id.name')
+// @desc update order to paid
+// @route GET /api/orders/:id/pay
+// @access private
+const updateOrderToPaid = asyncHandler( async (req, res) => {
+    const order = await Order.findById(req.params.id)
 
-        res.json(order)
+    if(order) {
+        order.isPaid = true
+        order.paidAt = Date.now()
+        order.paymentResult = {
+            id: req.body.id,
+            status: req.body.status,
+            update_time: req.body.update_time,
+            email_address: req.body.payer.email_address,
+        }
+        const updatedOrder = await order.save()
+        res.json(updatedOrder)
+    } else {
+        res.status(404)
+        throw new Error('Order not found')
+    }
 })
 
+// @desc update order to delivered
+// @route GET /api/orders/:id/deliver
+// @access private
+const updateOrderToDelivered = asyncHandler( async (req, res) => {
+    const order = await Order.findById(req.params.id)
 
-export {addOrderItems,getOrderById,updateOrderToPaid,getOrder,getMyOrder}
+    if(order) {
+        order.isDelivered = true
+        order.deliveredAt = Date.now()
+
+        const updatedOrder = await order.save()
+        res.json(updatedOrder)
+    } else {
+        res.status(404)
+        throw new Error('Order Not Found')
+    }
+})
+
+// @desc Get my orders
+// @route GET /api/orders/myorders
+// @access private
+const getMyOrders = asyncHandler( async (req, res) => {
+    const orders = await Order.find({ user: req.user._id })
+    res.json(orders)
+})
+
+// @desc Get all orders
+// @route GET /api/orders
+// @access private
+const getOrders = asyncHandler( async (req, res) => {
+    const orders = await Order.find({}).populate('user', 'id name')
+    res.json(orders)
+})
+
+export { addOrderItems, getOrderById, updateOrderToPaid, getMyOrders, getOrders, updateOrderToDelivered }
