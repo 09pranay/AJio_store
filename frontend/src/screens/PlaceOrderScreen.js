@@ -7,7 +7,7 @@ import CheckoutSteps from '../components/CheckoutSteps'
 
 import {createOrder} from '../actions/orderActions'
 import {ORDER_CREATE_RESET} from '../constants/orderConstants'
-import {ORDER_DETAILS_RESET} from '../constants/orderConstants'
+// import {ORDER_DETAILS_RESET} from '../constants/orderConstants'
 import {USER_DETAILS_RESET} from '../constants/userConstants'
   
 function PlaceOrderScreen({history}) {
@@ -47,7 +47,7 @@ function PlaceOrderScreen({history}) {
       if(success) {
         history.push(`/order/${order._id}`)
         dispatch({type: USER_DETAILS_RESET})
-        dispatch({type: ORDER_DETAILS_RESET})
+        dispatch({type: ORDER_CREATE_RESET})
       }
    },[ history,success])
 
