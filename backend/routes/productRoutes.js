@@ -3,7 +3,7 @@ const router = express.Router()
 // import asyncHandler from 'express-async-handler'
 // import Product from '../models/productModel.js'
 import { getProducts, getProductById ,deleteProduct,createProduct,updateProduct } from '../controllers/productController.js'
-
+import { protect,admin } from '../middleware/authMiddleware.js'
 
 router.route('/')
                 .get(getProducts)
