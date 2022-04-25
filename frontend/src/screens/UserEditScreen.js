@@ -7,26 +7,26 @@ import Loader from '../components/Loader'
 import FormContainer from '../components/FormContainer'
 import { getUserDetails, updateUser } from '../actions/userActions'
 import { USER_UPDATE_RESET } from '../constants/userConstants'
- 
+
 const UserEditScreen = ({ match, history }) => {
   const userId = match.params.id
- 
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [isAdmin, setIsAdmin] = useState(false)
- 
+
   const dispatch = useDispatch()
- 
+
   const userDetails = useSelector((state) => state.userDetails)
   const { loading, error, user } = userDetails
- 
+
   const userUpdate = useSelector((state) => state.userUpdate)
   const {
     loading: loadingUpdate,
     error: errorUpdate,
     success: successUpdate,
   } = userUpdate
- 
+
   useEffect(() => {
     if (successUpdate) {
       dispatch({ type: USER_UPDATE_RESET })
@@ -41,12 +41,12 @@ const UserEditScreen = ({ match, history }) => {
       }
     }
   }, [dispatch, history, userId, user, successUpdate])
- 
+
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(updateUser({ _id: userId, name, email, isAdmin }))
   }
- 
+
   return (
     <>
       <Link to='/admin/userlist' className='btn btn-light my-3'>
@@ -71,7 +71,7 @@ const UserEditScreen = ({ match, history }) => {
                 onChange={(e) => setName(e.target.value)}
               ></Form.Control>
             </Form.Group>
- 
+
             <Form.Group controlId='email'>
               <Form.Label>Email Address</Form.Label>
               <Form.Control
@@ -81,7 +81,7 @@ const UserEditScreen = ({ match, history }) => {
                 onChange={(e) => setEmail(e.target.value)}
               ></Form.Control>
             </Form.Group>
- 
+
             <Form.Group controlId='isadmin'>
               <Form.Check
                 type='checkbox'
@@ -90,7 +90,7 @@ const UserEditScreen = ({ match, history }) => {
                 onChange={(e) => setIsAdmin(e.target.checked)}
               ></Form.Check>
             </Form.Group>
- 
+
             <Button type='submit' variant='primary'>
               Update
             </Button>
@@ -100,5 +100,5 @@ const UserEditScreen = ({ match, history }) => {
     </>
   )
 }
- 
+
 export default UserEditScreen

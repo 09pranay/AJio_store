@@ -32,8 +32,8 @@ function PaymentScreen({ history }) {
                 <Form.Label as='legend'>Select Method</Form.Label>
                 <Form.Check type='radio' label='PayPal or Credit Card' id='PayPal' name='paymentMethod' value='PayPal' checked onChange={(e) => setPaymentMethod(e.target.value)}>    
                 </Form.Check>
-                {/* <Form.Check type='radio' label='Stripe' id='Stripe' name='paymentMethod' value='Stripe' checked onChange={(e) => setPaymentMethod(e.target.value)}>    
-                </Form.Check> */}
+                <Form.Check type='radio' label='Stripe' id='Stripe' name='paymentMethod' value='Stripe' checked onChange={(e) => setPaymentMethod(e.target.value)}>    
+                </Form.Check>
             </Form.Group>
             <Button type='submit' variant='primary'>Continue</Button>  
         </Form>
