@@ -16,7 +16,7 @@ export const orderCreateReducer = (state={}, action) => {
     }
 }
 
-export const orderDetailsReducer = (state = { orderItems: [], shippingAddress: {} }, action) => {
+export const orderDetailsReducer = (state = {loading:true, orderItems: [], shippingAddress: {} }, action) => {
     switch (action.type) {
         case ORDER_DETAILS_REQUEST:
             return {...state, loading: true }
@@ -44,12 +44,12 @@ export const orderPayReducer = (state = {}, action) => {
     }
 }
 
-export const orderDeliverReducer = (state = {}, action) => {
+export const orderDeliverReducer = (state = {loading:true,orderItems:[],shippingAddress:{}}, action) => {
     switch (action.type) {
         case ORDER_DELIVER_REQUEST:
-            return { loading: true }
+            return { ...state, loading: true }
         case ORDER_DELIVER_SUCCESS:
-            return { loading: false, success: true }
+            return { loading: false, order: action.payload}
         case ORDER_DELIVER_FAIL:
             return { loading: false, error: action.payload }
         case ORDER_DELIVER_RESET:
