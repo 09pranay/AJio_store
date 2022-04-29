@@ -11,22 +11,22 @@ import {
   createProduct,
 } from '../actions/productActions'
 import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
- 
+
 const ProductListScreen = ({ history, match }) => {
   const pageNumber = match.params.pageNumber || 1
- 
+
   const dispatch = useDispatch()
- 
+
   const productList = useSelector((state) => state.productList)
   const { loading, error, products, page, pages } = productList
- 
+
   const productDelete = useSelector((state) => state.productDelete)
   const {
     loading: loadingDelete,
     error: errorDelete,
     success: successDelete,
   } = productDelete
- 
+
   const productCreate = useSelector((state) => state.productCreate)
   const {
     loading: loadingCreate,
@@ -34,19 +34,19 @@ const ProductListScreen = ({ history, match }) => {
     success: successCreate,
     product: createdProduct,
   } = productCreate
- 
+
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
- 
+
   useEffect(() => {
     dispatch({ type: PRODUCT_CREATE_RESET })
- 
+
     if (!userInfo || !userInfo.isAdmin) {
       history.push('/login')
     }
- 
+
     if (successCreate) {
-      history.push(`/admin/product/₹{createdProduct._id}/edit`)
+      history.push(`/admin/product/${createdProduct._id}/edit`)
     } else {
       dispatch(listProducts('', pageNumber))
     }
@@ -59,17 +59,17 @@ const ProductListScreen = ({ history, match }) => {
     createdProduct,
     pageNumber,
   ])
- 
+
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
       dispatch(deleteProduct(id))
     }
   }
- 
+
   const createProductHandler = () => {
     dispatch(createProduct())
   }
- 
+
   return (
     <>
       <Row className='align-items-center'>
@@ -112,7 +112,7 @@ const ProductListScreen = ({ history, match }) => {
                   <td>{product.category}</td>
                   <td>{product.brand}</td>
                   <td>
-                    <LinkContainer to={`/admin/product/₹{product._id}/edit`}>
+                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
                       <Button variant='light' className='btn-sm'>
                         <i className='fas fa-edit'></i>
                       </Button>
@@ -135,5 +135,5 @@ const ProductListScreen = ({ history, match }) => {
     </>
   )
 }
- 
+
 export default ProductListScreen

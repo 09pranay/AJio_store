@@ -5,22 +5,22 @@ const router = express.Router()
 
 const storage = multer.diskStorage({
     description(req,file,cb){
-        cb(null,"uplodes/")
+        cb(null, 'uploads/')
     },
     filename(req,file,cb){
         cb(null,`${field.fieldname}-${Date.now()}${path.extname(file.originalname)}`)
-    }
+    },
 })
 
 function checkFileType(file,cb) {
     const filetype = /jpg|png|jpeg/
-    const extname= filetype.test(path.extname(file.originalname).toLowerCase)
+    const extname= filetype.test(path.extname(file.originalname).toLowerCase())
     const mimetype = filetype.test(file.mimetype)
 
     if (extname && mimetype) {
         return cb(null,true) 
     }else{
-        cb('Image only')
+        cb('Images only!')
     }
 }
 
@@ -32,7 +32,7 @@ const uplode = multer({
 })
 
 router.post('/',uplode.single('image'),(req,res) => {
-    res.send(`${req.file.path}`)
+    res.send(`/${req.file.path}`)
 })
 
 export default router

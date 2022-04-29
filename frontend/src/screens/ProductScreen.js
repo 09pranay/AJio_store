@@ -11,27 +11,27 @@ import {
   createProductReview,
 } from '../actions/productActions'
 import { PRODUCT_CREATE_REVIEW_RESET } from '../constants/productConstants'
- 
+
 const ProductScreen = ({ history, match }) => {
   const [qty, setQty] = useState(1)
   const [rating, setRating] = useState(0)
   const [comment, setComment] = useState('')
- 
+
   const dispatch = useDispatch()
- 
+
   const productDetails = useSelector((state) => state.productDetails)
   const { loading, error, product } = productDetails
- 
+
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
- 
+
   const productReviewCreate = useSelector((state) => state.productReviewCreate)
   const {
     success: successProductReview,
     loading: loadingProductReview,
     error: errorProductReview,
   } = productReviewCreate
- 
+
   useEffect(() => {
     if (successProductReview) {
       setRating(0)
@@ -42,11 +42,11 @@ const ProductScreen = ({ history, match }) => {
       dispatch({ type: PRODUCT_CREATE_REVIEW_RESET })
     }
   }, [dispatch, match, successProductReview, product._id])
- 
+
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`)
   }
- 
+
   const submitHandler = (e) => {
     e.preventDefault()
     dispatch(
@@ -56,7 +56,7 @@ const ProductScreen = ({ history, match }) => {
       })
     )
   }
- 
+
   return (
     <>
       <Link className='btn btn-light my-3' to='/'>
@@ -101,7 +101,7 @@ const ProductScreen = ({ history, match }) => {
                       </Col>
                     </Row>
                   </ListGroup.Item>
- 
+
                   <ListGroup.Item>
                     <Row>
                       <Col>Status:</Col>
@@ -110,7 +110,7 @@ const ProductScreen = ({ history, match }) => {
                       </Col>
                     </Row>
                   </ListGroup.Item>
- 
+
                   {product.countInStock > 0 && (
                     <ListGroup.Item>
                       <Row>
@@ -133,7 +133,7 @@ const ProductScreen = ({ history, match }) => {
                       </Row>
                     </ListGroup.Item>
                   )}
- 
+
                   <ListGroup.Item>
                     <Button
                       onClick={addToCartHandler}
@@ -220,5 +220,5 @@ const ProductScreen = ({ history, match }) => {
     </>
   )
 }
- 
+
 export default ProductScreen
